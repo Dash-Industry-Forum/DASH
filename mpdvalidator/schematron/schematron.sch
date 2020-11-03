@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://purl.oclc.org/dsdl/schematron" xmlns:dash="urn:mpeg:dash:schema:mpd:2011" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:cenc="urn:mpeg:cenc:2013" queryBinding='xslt2' schemaVersion='ISO19757-3'>
+<schema xmlns="http://purl.oclc.org/dsdl/schematron" xmlns:dash="urn:mpeg:dash:schema:mpd:2011" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:cenc="urn:mpeg:cenc:2013" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" queryBinding='xslt2' schemaVersion='ISO19757-3'>
 	<ns prefix="dash" uri="urn:mpeg:dash:schema:mpd:2011"/>
 	<ns prefix="xlink" uri="http://www.w3.org/1999/xlink"/>
 	<ns prefix="xsi" uri="http://www.w3.org/2001/XMLSchema-instance"/>
 	<ns prefix="xs" uri="http://www.w3.org/2001/XMLSchema"/>
+	<ns prefix="xsl" uri="http://www.w3.org/1999/XSL/Transform"/>
 	<ns prefix="cenc" uri="urn:mpeg:cenc:2013"/>
 
 	<!-- include some helper functions for codec specific assertions, needed for DVB DASH assertions -->
@@ -25,7 +26,34 @@
 			<!-- R1.5 -->
 			<assert test="if (not(@mediaPresentationDuration) and not(@minimumUpdatePeriod)) then false() else true()">If mediaPresentationDuration is not defined for the MPD minimumUpdatePeriod shall be defined or vice versa.</assert>
 			<!-- R1.7 -->
-			<assert test="if (not(@profiles) or (contains(@profiles, 'urn:mpeg:dash:profile:isoff-on-demand:2011') or contains(@profiles, 'urn:mpeg:dash:profile:isoff-ext-on-demand:2014') or contains(@profiles, 'urn:mpeg:dash:profile:isoff-live:2011') or contains(@profiles, 'urn:mpeg:dash:profile:isoff-ext-live:2014') or contains(@profiles, 'urn:mpeg:dash:profile:isoff-main:2011') or contains(@profiles, 'urn:mpeg:dash:profile:full:2011') or contains(@profiles, 'urn:mpeg:dash:profile:isoff-common:2014') or contains(@profiles, 'urn:mpeg:dash:profile:isoff-broadcast:2015') or contains(@profiles, 'urn:mpeg:dash:profile:mp2t-main:2011') or contains(@profiles, 'urn:mpeg:dash:profile:mp2t-simple:2011') or contains(@profiles, 'http://dashif.org/guidelines/dash264') or contains(@profiles, 'http://dashif.org/guidelines/dash264#sd') or contains(@profiles, 'http://dashif.org/guidelines/dash264#hd') or contains(@profiles, 'http://dashif.org/guidelines/dash264main') or contains(@profiles, 'http://dashif.org/guidelines/dash264high') or contains(@profiles, 'http://dashif.org/guidelines/dash-if-simple') or contains(@profiles, 'http://dashif.org/guidelines/dash-if-main') or contains(@profiles, 'http://dashif.org/guidelines/dash-if-ondemand') or contains(@profiles, 'http://dashif.org/guidelines/dash-if-mixed') or contains(@profiles, 'http://dashif.org/guidelines/dashif#ec-3') or contains(@profiles, 'http://dashif.org/guidelines/dashif#mlpa') or contains (@profiles, 'http://dashif.org/guidelines/dashif#ac-4') or contains(@profiles, 'http://dashif.org/guidelines/dashif#dtsc') or contains (@profiles, 'http://dashif.org/guidelines/dashif#dtsh') or contains (@profiles, 'http://dashif.org/guidelines/dashif#dtse') or contains (@profiles, 'http://dashif.org/guidelines/dashif#dtsl') or contains (@profiles, 'http://dashif.org/guidelines/dashif#mps') or contains (@profiles, 'http://dashif.org/guidelines/dashif#heaac-mc51') or contains (@profiles, 'http://dashif.org/guidelines/dashif#heaac-mc71') or contains (@profiles, 'http://dashif.org/guidelines/dashif#mpeg-h-3da') or contains(@profiles, 'http://dashif.org/guidelines/dashif#cxha') or contains(@profiles, 'http://dashif.org/guidelines/dash-if-uhd#4k') or contains(@profiles, 'http://dashif.org/guidelines/dash-if-uhd#hdr-pq10') or contains(@profiles, 'http://dashif.org/guidelines/dashif#vp9') or contains(@profiles, 'http://dashif.org/guidelines/dash-if-uhd#vp9') or contains(@profiles, 'http://dashif.org/guidelines/dashif#vp9-hdr') or contains(@profiles, 'http://dashif.org/guidelines/dash-if-uhd#vp9-hdr') or contains(@profiles, 'urn:hbbtv:dash:profile:isoff-live:2012') or contains(@profiles, 'urn:dvb:dash:profile:dvb-dash:2014'))) then true() else false()">An unknown profile string (other than the On-Demand profile -"urn:mpeg:dash:profile:isoff-on-demand:2011", the extended On-Demand profile -"urn:mpeg:dash:profile:isoff-ext-on-demand:2014", the live profile -"urn:mpeg:dash:profile:isoff-live:2011", the extended live profile -"urn:mpeg:dash:profile:isoff-ext-live:2014", the main profile- "urn:mpeg:dash:profile:isoff-main:2011", the full profile "urn:mpeg:dash:profile:full:2011", the common profile -"urn:mpeg:dash:profile:isoff-common:2014", the broadcast TV profile -"urn:mpeg:dash:profile:isoff-broadcast:2015", the mp2t-main profile -"urn:mpeg:dash:profile:mp2t-main:2011", the mp2t-simple profile -"urn:mpeg:dash:profile:mp2t-simple:2011", the DASH-IF profile - 'http://dashif.org/guidelines/dash264', the DASH-IF SD profile - 'http://dashif.org/guidelines/dash264#sd', the DASH-IF HD profile - 'http://dashif.org/guidelines/dash264#hd', the DASH-IF main profile - 'http://dashif.org/guidelines/dash264#main', the DASH-IF high profile - 'http://dashif.org/guidelines/dash264#high', the DASH-IF IOP simple profile - 'http://dashif.org/guidelines/dash-if-simple', the DASH-IF IOP main profile - 'http://dashif.org/guidelines/dash-if-main', the DASH-IF IOP on demand profile - 'http://dashif.org/guidelines/dash-if-ondemand', the DASH-IF IOP mixed on demand profile - 'http://dashif.org/guidelines/dash-if-mixed', the DASH-IF multichannel audio extension with Enhanced AC-3 -"http://dashif.org/guidelines/dashif#ec-3, the DASH-IF multichannel extension with Dolby TrueHD -"http://dashif.org/guidelines/dashif#mlpa", the Dolby AC-4 profile -"http://dashif.org/guidelines/dashif#ac-4", the DASH-IF multichannel extension with DTS Digital Surround -"http://dashif.org/guidelines/dashif#dtsc", the DASH-IF multichannel audio extension with DTS-HD High Resolution and DTS-HD Master Audio -"http://dashif.org/guidelines/dashif#dtsh", the DASH-IF multichannel audio extension with DTS Express -"http://dashif.org/guidelines/dashif#dtse", the DASH-IF multichannel audio extension with DTS-HD Lossless profile -"http://dashif.org/guidelines/dashif#dtsl", the DASH-IF multichannel audio extension with MPEG Surround profile -"http://dashif.org/guidelines/dashif#mps", the DASH-IF multichannel audio extension with HEAACv2 Level 4 profile -"http://dashif.org/guidelines/dashif#heaac-mc51", the DASH-IF multichannel audio extension with HEAACv2 Level 6 profile -"http://dashif.org/guidelines/dashif#heaac-mc71", the DASH-IF multichannel audio extension with MPEG-H 3D Audio profile -"http://dashif.org/guidelines/dashif#mpeg-h-3da", the DASH-IF audio extension with USAC profile -"http://dashif.org/guidelines/dashif#cxha", the DASH-IF UHD HEVC 4K profile -"http://dashif.org/guidelines/dash-if-uhd#4k", the DASH-IF HEVC HDR PQ10 profile - "http://dashif.org/guidelines/dash-if-uhd#hdr-pq10", the DASH-IF VP9-HD profile -"http://dashif.org/guidelines/dashif#vp9", the DASH-IF VP9-UHD profile -"http://dashif.org/guidelines/dash-if-uhd#vp9", the DASH-IF VP9-HDR profile -"http://dashif.org/guidelines/dashif#vp9-hdr" or "http://dashif.org/guidelines/dash-if-uhd#vp9-hdr", the DVB-DASH profile -"urn:dvb:dash:profile:dvb-dash:2014", the HbbTV 1.5 profile -"urn:hbbtv:dash:profile:isoff-live:2012"")found.</assert>
+			<xsl:variable name="supported-profiles">
+				<x uri='urn:mpeg:dash:profile:isoff-on-demand:2011'>On-Demand profile</x>
+				<x uri='urn:mpeg:dash:profile:isoff-ext-on-demand:2014'>extended On-Demand profile</x>
+				<x uri='urn:mpeg:dash:profile:isoff-live:2011'>live profile</x>
+				<x uri='urn:mpeg:dash:profile:isoff-ext-live:2014'>extended live profile</x>
+				<x uri='urn:mpeg:dash:profile:isoff-broadcast:2015'>broadcast profile</x>
+				<x uri='urn:mpeg:dash:profile:isoff-main:2011'>main profile</x>
+				<x uri='urn:mpeg:dash:profile:full:2011'>full profile</x>
+				<x uri='urn:mpeg:dash:profile:isoff-common:2014'>common profile</x>
+				<x uri='urn:mpeg:dash:profile:mp2t-main:2011'>mp2t-main profile</x>
+				<x uri='urn:mpeg:dash:profile:mp2t-simple:2011'>mp2t-simple profile</x>
+				<x uri='http://dashif.org/guidelines/dashif#ac-4'>Dolby AC-4 profile</x>
+				<x uri='http://dashif.org/guidelines/dashif#mpeg-h-3da'>multichannel audio extension with MPEG-H 3D Audio profile</x>
+				<x uri='http://dashif.org/guidelines/dashif#vp9'>VP9-HD profile</x>
+				<x uri='http://dashif.org/guidelines/dash-if-uhd#vp9'>VP9-UHD profile</x>
+				<x uri='http://dashif.org/guidelines/dashif#vp9-hdr'>VP9-HDR profile</x>
+				<x uri='http://dashif.org/guidelines/dash-if-uhd#vp9-hdr'>VP9-HDR profile</x>
+				<x uri='http://dashif.org/guidelines/dashif#ec-3'>DASH-IF multichannel audio extension with Enhanced AC-3</x>
+				<x uri='urn:hbbtv:dash:profile:isoff-live:2012'>HbbTV 1.5 profile</x>
+				<x uri='urn:dvb:dash:profile:dvb-dash:2014'>DVB-DASH 2014 profile</x>
+				<x uri='urn:dvb:dash:profile:dvb-dash:2017'>DVB-DASH 2017 profile</x>
+			</xsl:variable>
+			<xsl:variable name="DQUOTE">"</xsl:variable>
+			<!-- build a human-readable list of supported profiles -->
+			<let name="supported-profiles-helper" value="for $x in $supported-profiles/x return concat('the ',$x,' -',$DQUOTE,$x/@uri,$DQUOTE)"/>
+			<let name="supported-profiles-docstring" value="string-join($supported-profiles-helper,', ')"/>
+			<!-- assert that all profiles are in the list of supported profiles -->
+			<assert test="if (not(@profiles) or (every $t in tokenize(@profiles,',') satisfies $t = $supported-profiles/x/@uri)) then true() else false()">An unknown profile string "<value-of select="@profiles"/>"(other than <value-of select="$supported-profiles-docstring"/>) found.</assert>
 			<!-- R1.8 -->
 			<assert test="if (not(contains(@profiles, 'urn:mpeg:dash:profile:isoff-on-demand:2011')) or not(@type) or @type='static') then true() else false()">For On-Demand profile, the MPD @type shall be "static".</assert>
 			<!-- R1.9 -->
@@ -87,11 +115,13 @@
 			<!-- R3.8 -->
 			<assert test="if ((child::dash:SegmentBase and child::dash:SegmentTemplate and child::dash:SegmentList) or (child::dash:SegmentBase and child::dash:SegmentTemplate) or (child::dash:SegmentBase and child::dash:SegmentList) or (child::dash:SegmentTemplate and child::dash:SegmentList)) then false() else true()">At most one of SegmentBase, SegmentTemplate and SegmentList shall be defined in AdaptationSet.</assert>
 			<!-- R3.9 -->
-			<assert test="if ((@minFrameRate and (some $fr in descendant::dash:Representation/@frameRate satisfies dlb:fractionalToFloat($fr) lt dlb:fractionalToFloat(@minFrameRate))) or (@maxFrameRate and (some $fr in descendant::dash:Representation/@frameRate satisfies dlb:fractionalToFloat($fr) gt dlb:fractionalToFloat(@maxFrameRate)))) then false() else true()">ISO/IEC 23009-1:2019, 5.3.3.1: The value of the frameRate attribute shall be in the range defined by the AdaptationSet.</assert>
+			<assert test="if ((@minFrameRate and (some $fr in descendant::dash:Representation/@frameRate satisfies dlb:fractionalToFloat($fr) lt dlb:fractionalToFloat(@minFrameRate))) or (@maxFrameRate and (some $fr in descendant::dash:Representation/@frameRate satisfies dlb:fractionalToFloat($fr) gt dlb:fractionalToFloat(@maxFrameRate)))) then false() else true()">ISO/IEC 23009-1 Section 5.3.3.2: The value of the frameRate attribute shall be in the range defined by the AdaptationSet.</assert>
                         <!-- HbbTV profile checks -->
                         <assert test="if((contains(@profiles, 'urn:hbbtv:dash:profile:isoff-live:2012') or (not(@profiles) and contains(ancestor::dash:MPD/@profiles, 'urn:hbbtv:dash:profile:isoff-live:2012'))) and (@subsegmentAlignment = 'true')) then false() else true()">HbbTV-DVB DASH Validation Requirements check violated for HbbTV: Section 'MPD' - The MPD contains an attribute that is not part of the HbbTV profile', i.e., found 'subsegmentAlignment' as true</assert>
                         <assert test="if((contains(@profiles, 'urn:hbbtv:dash:profile:isoff-live:2012') or (not(@profiles) and contains(ancestor::dash:MPD/@profiles, 'urn:hbbtv:dash:profile:isoff-live:2012'))) and (@subsegmentStartsWithSAP = '1' or @subsegmentStartsWithSAP = '2')) then false() else true()">HbbTV-DVB DASH Validation Requirements check violated for HbbTV: Section 'MPD' - The MPD contains an attribute that is not part of the HbbTV profile', i.e., found 'subsegmentStartsWithSAP' as 1 or 2</assert>
                         <assert test="if((contains(@profiles, 'urn:hbbtv:dash:profile:isoff-live:2012') or (not(@profiles) and contains(ancestor::dash:MPD/@profiles, 'urn:hbbtv:dash:profile:isoff-live:2012'))) and (@subsegmentStartsWithSAP = '3') and not (count(child::dash:Representation) &gt; 1)) then false() else true()">HbbTV-DVB DASH Validation Requirements check violated for HbbTV: Section 'MPD' - The MPD contains an attribute that is not part of the HbbTV profile', i.e., found 'subsegmentStartsWithSAP' as 3 while not containing more than one Representation</assert>
+			<report test="contains(/dash:MPD/@profiles, 'urn:mpeg:dash:profile:isoff-broadcast:2015') and count(child::dash:Representation)>1 and not(descendant::dash:Switching)">If an Adaptation contains more than one Representation, then at least one Switching element shall be present</report>
+			<report test="contains(/dash:MPD/@profiles, 'urn:mpeg:dash:profile:isoff-broadcast:2015') and count(distinct-values(descendant-or-self::*/@timescale))>1">Use a single @timescale for all Representations in one Adaptation Set</report>
 		</rule>
 	</pattern>
 
@@ -124,6 +154,7 @@
                         <assert test="if((contains(@profiles, 'urn:hbbtv:dash:profile:isoff-live:2012') or (not(@profiles) and contains(parent::dash:AdaptationSet/@profiles, 'urn:hbbtv:dash:profile:isoff-live:2012')) or (not(@profiles) and not(parent::dash:AdaptationSet/@profiles) and contains(ancestor::dash:MPD/@profiles, 'urn:hbbtv:dash:profile:isoff-live:2012'))) and (parent::dash:AdaptationSet/@subsegmentStartsWithSAP = '3') and (@mediaStreamStructureId = following-sibling::dash:Representation/@mediaStreamStructureId)) then false() else true()">HbbTV-DVB DASH Validation Requirements check violated for HbbTV: Section 'MPD' - The MPD contains an attribute that is not part of the HbbTV profile', i.e., found 'subsegmentStartsWithSAP' as 3 with same value of mediaStreamStructureId in more than one Representation</assert>
                         <!-- HbbTV profile checks: extending the live profile checks -->
                         <assert test="if (not(child::dash:SegmentTemplate or parent::dash:AdaptationSet/dash:SegmentTemplate or ancestor::dash:Period/dash:SegmentTemplate) and (contains(@profiles, 'urn:hbbtv:dash:profile:isoff-live:2012') or contains(parent::dash:AdaptationSet/@profiles, 'urn:hbbtv:dash:profile:isoff-live:2012') or contains(ancestor::dash:MPD/@profiles, 'urn:hbbtv:dash:profile:isoff-live:2012'))) then false() else true()">HbbTV-DVB DASH Validation Requirements check violated for HbbTV: Section 'MPD' - For HbbTV profile, the SegmentTemplate element shall be present on at least one of the three levels, the Period level containing the Representation, the Adaptation Set containing the Representation, or on Representation level itself as it is based on live profile</assert>
+			<report test="contains(/dash:MPD/@profiles, 'urn:mpeg:dash:profile:isoff-broadcast:2015') and not(child::dash:RandomAccess)">Each Representation shall provide at least one RandomAccess element</report>
 		</rule>
 	</pattern>
 	<pattern>
@@ -144,7 +175,8 @@
 			<!-- R7.1 -->
 			<assert test="if (@duration and child::dash:SegmentTimeline) then false() else true()">Either the duration attribute or SegmentTimeline element shall be present but not both.</assert>
 			<!-- R7.2 -->
-			<assert test="if (not(@indexRange) and @indexRangeExact) then false() else true()">If indexRange is not present indexRangeExact shall not be present.</assert>
+			<assert test="if (not(exists(@indexRange)) and exists(@indexRangeExact)) then false() else true()">If indexRange is not present indexRangeExact shall not be present.</assert>
+			<assert test="not(exists(@indexRangeExact))">indexRangeExact=<value-of select="@indexRangeExact"/></assert>
 			<!-- R7.3 -->
 			<assert test="if (@initialization and (matches(@initialization, '\$Number(%.[^\$]*)?\$') or matches(@initialization, '\$Time(%.[^\$]*)?\$'))) then false() else true()">Neither $Number$ nor the $Time$ identifier shall be included in the initialization attribute.</assert>
 			<!-- R7.4 -->
@@ -210,7 +242,7 @@
 		<!-- R13.*: Check the conformance of Role -->
 		<rule context="dash:Role">
 			<!-- R13.0 -->
-			<assert test="if ((@schemeIdUri = 'urn:mpeg:dash:role:2011') and not(@value = 'caption' or @value = 'subtitle' or @value = 'main' or @value = 'alternate' or @value = 'supplementary' or @value = 'commentary' or @value = 'dub')) then false() else true()">The value of Role (role) shall be caption, subtitle, main, alternate, supplementary, commentary or dub.</assert>
+			<assert test="if ((@schemeIdUri = 'urn:mpeg:dash:role:2011') and not(@value = 'caption' or @value = 'subtitle' or @value = 'main' or @value = 'alternate' or @value = 'supplementary' or @value = 'commentary' or @value = 'dub' or @value = 'emergency')) then false() else true()">The value of Role (role) shall be caption, subtitle, main, alternate, supplementary, commentary, dub or emergency.</assert>
 			<!-- R13.1 -->
 			<assert test="if ((@schemeIdUri = 'urn:mpeg:dash:stereoid:2011') and not(starts-with(@value, 'l') or starts-with(@value, 'r'))) then false() else true()">The value of Role (stereoid) shall start with 'l' or 'r'.</assert>
 		</rule>
@@ -226,7 +258,7 @@
 			<!-- R14.2 -->
 			<assert test="if (not(@schemeIdUri = 'urn:mpeg:dash:14496:10:frame_packing_arrangement_type:2011') and not(@schemeIdUri = 'urn:mpeg:dash:13818:1:stereo_video_format_type:2011')) then false() else true()">schemeIdUri for FramePacking descriptor shall be urn:mpeg:dash:14496:10:frame_packing_arrangement_type:2011 or urn:mpeg:dash:13818:1:stereo_video_format_type:2011.</assert>
 			<!-- R14.3 -->
-			<assert test="if (not(@value = '0' or @value = '1' or @value = '2' or @value = '3' or @value = '4' or @value = '5' or @value = '6')) then false() else true()">The value of FramePacking shall be 0 to 6 as defined in ISO/IEC 23091(all parts).</assert>
+			<assert test="if (not(@value = '0' or @value = '1' or @value = '2' or @value = '3' or @value = '4' or @value = '5' or @value = '6')) then false() else true()">The value of FramePacking shall be 0 to 6 as defined in ISO/IEC 23001-8.</assert>
 		</rule>
 	</pattern>
 	<pattern>
@@ -234,7 +266,7 @@
 		<!-- R15.*: Check the conformance of AudioChannelConfiguration -->
 		<rule context="dash:AudioChannelConfiguration">
 			<!-- R15.0 -->
-			<assert test="if ((@schemeIdUri = 'urn:mpeg:dash:outputChannelPositionList:2012') and not(count(tokenize(@value, ' ')) > 1)) then false() else true()">If URI urn:mpeg:dash:outputChannelPositionList:2012 is used the value attribute shall be a space-delimited list as defined in ISO/IEC 23091(all parts).</assert>
+			<assert test="if ((@schemeIdUri = 'urn:mpeg:dash:outputChannelPositionList:2012') and not(count(tokenize(@value, ' ')) > 1)) then false() else true()">If URI urn:mpeg:dash:outputChannelPositionList:2012 is used the value attribute shall be a space-delimited list as defined in ISO/IEC 23001-8.</assert>
 
 		</rule>
 	</pattern>
@@ -323,11 +355,7 @@
 			<!-- R1.6 -->
 			<assert test="if (@type = 'static' and @minimumUpdatePeriod and contains(@profiles, 'http://dashif.org/guidelines/dash')) then false() else true()">If MPD is of type "static" and if the profile contains a DASH-IF IOP profile, then the minimumUpdatePeriod shall not be defined.</assert>
                         <!-- RD1.0 -->
-			<assert test="if (contains(@profiles, 'http://dashif.org/guidelines/dash') and @type='dynamic' and not(contains(@profiles, 'urn:mpeg:dash:profile:isoff-live:2011'))) then false() else true()">DASH-IF IOP Section 3.2.2.2: For dynamic MPD, the @profile shall include urn:mpeg:dash:profile:isoff-live:2011. </assert>
-                        <!-- RD1.1 -->
-			<assert test="if (((contains(@profiles, 'http://dashif.org/guidelines/dash') and contains(@profiles, 'urn:mpeg:dash:profile:isoff-live:2011')) or (contains(@profiles, 'http://dashif.org/guidelines/dash') or contains(@profiles, 'urn:mpeg:dash:profile:isoff-on-demand:2011')) or (contains(@profiles, 'http://dashif.org/guidelines/dash-if-ondemand'))) and not(@minBufferTime)) then false() else true()">DASH-IF IOP Section 3.10.2/3.10.3: "MPD@minBufferTime shall be present", not found.</assert>
-                        <!-- RD1.2 -->
-			<!-- <assert test="if ((contains(@profiles, 'http://dashif.org/guidelines/dash') and contains(@profiles, 'urn:mpeg:dash:profile:isoff-live:2011')) and not(descendant::dash:Period[1]/@start)) then false() else true()">DASH-IF IOP Section 3.10.2: "First Period shall have @start", not found.</assert>  -->
+			<assert test="if (contains(ancestor::dash:MPD/@profiles, 'http://dashif.org/guidelines/dash') and @type='dynamic' and not(contains(@profiles, 'urn:mpeg:dash:profile:isoff-live:2011'))) then false() else true()">DASH-IF IOP Section 3.2.2.2: For dynamic MPD, the @profile shall include urn:mpeg:dash:profile:isoff-live:2011. </assert>
                 </rule>
 	</pattern>
         <pattern>
@@ -339,8 +367,7 @@
 			<assert test="if (contains(ancestor::dash:MPD/@profiles, 'http://dashif.org/guidelines/dash') and dash:SegmentList) then false() else true()">DASH-IF IOP Section 3.2.2: "the Period.SegmentList element shall not be present" violated here </assert>
 			<!-- RD2.1	DASH-IF -->
 			<assert test="if (contains(ancestor::dash:MPD/@profiles, 'http://dashif.org/guidelines/dash') and (count(child::dash:AdaptationSet[@contentType='video']) > 1) and (count(descendant::dash:Role[@value='main'])=0)) then false() else true()"> DASH-IF IOP Section 3.2.2: "If a Period contains multiple Adaptation Sets with value of the @contentType="video" then at least one Adaptation Set shall contain a Role el-ement $&lt;$Role scheme="urn:mpeg:dash:role:2011" value="main"&gt;" violated here</assert >
-                        <!-- RD2.2	DASH-IF -->
-                        <assert test="if (contains(ancestor::dash:MPD/@profiles, 'http://dashif.org/guidelines/dash-if-mixed') and @profiles and contains(@profiles, 'urn:mpeg:dash:profile:isoff-live:2011') and (contains(@profiles, 'urn:mpeg:dash:profile:isoff-on-demand:2011') or contains(@profiles, 'http://dashif.org/guidelines/dash-if-ondemand'))) then false() else true()">DASH-IF IOP Section 3.10.4: "All Representations in one Period shall either conform to a DASH Live profile or DASH On-Demand profile", both Live and On-Demand profiles are signaled for the Period.</assert>
+                      
 		</rule>
 	</pattern>
         <pattern>
@@ -348,7 +375,7 @@
 		<!-- R3.*: Check the conformance of AdaptationSet -->
 		<rule context="dash:AdaptationSet">
                         <!-- DASH-IF v 3.3 Section 3.8  -->
-			<assert test="if (contains(ancestor::dash:MPD/@profiles, 'http://dashif.org/guidelines/dash') and (descendant::dash:SupplementalProperty/@value = following-sibling::dash:AdaptationSet/@id) and (@segmentAlignment='true') and (following-sibling::dash:AdaptationSet/@segmentAlignment = 'false')) then false() else true()">If the content author signals the ability of Adaptation Set switching and as @segmentAlignment or @subsegmentAlignment are set to TRUE for one Adaptation Set, the (Sub)Segment alignment shall hold for all Representations in all Adaptation Sets for which the @id value is included in the @value attribute of the Supplemental descriptor.</assert>
+			<assert test="if ((descendant::dash:SupplementalProperty/@value = following-sibling::dash:AdaptationSet/@id) and (@segmentAlignment='true') and (following-sibling::dash:AdaptationSet/@segmentAlignment = 'false')) then false() else true()">If the content author signals the ability of Adaptation Set switching and as @segmentAlignment or @subsegmentAlignment are set to TRUE for one Adaptation Set, the (Sub)Segment alignment shall hold for all Representations in all Adaptation Sets for which the @id value is included in the @value attribute of the Supplemental descriptor.</assert>
 			
 			<!-- RD3.0	DASH-IF -->
 			<assert test="if (contains(ancestor::dash:MPD/@profiles, 'http://dashif.org/guidelines/dash') and @contentType='video' and not(@par)) then false() else true()"> DASH-IF IOP Section 3.2.4: "For any Adaptation Sets with value of the @contentType="video" the following attributes shall be present: @par" violated here</assert >
@@ -369,11 +396,7 @@
 			<!-- RD3.7	DASH-IF -->
 			<assert test="if (contains(ancestor::dash:MPD/@profiles, 'http://dashif.org/guidelines/dash') and @mimeType and not((@mimeType = 'video/mp4') or (@mimeType = 'audio/mp4') or (@mimeType = 'application/mp4') or (@mimeType = 'application/ttml+xml') or (@mimeType = 'text/vtt') or (@mimeType = 'image/jpeg'))) then false() else true()">If a DASH-IF profile identifier is present, for the Adaptation Sets the mimeType shall be one of the six following type: "video/mp4", "audio/mp4", "application/mp4", "application/ttml+xml", "text/vtt" or "image/jpeg"</assert >
                         <!-- DASH-IF Section 5.3.7.2 -->
-                        <assert test="if (contains(ancestor::dash:MPD/@profiles, 'http://dashif.org/guidelines/dash') and @profiles and not(contains(ancestor::dash:MPD/@profiles, @profiles))) then false() else true()">The value of @profiles shall be a subset of the respective value in any higher level of the document hierarchy</assert>
-                        <!-- RD3.8 -->
-			<assert test="if (contains(@profiles, 'http://dashif.org/guidelines/dash-if-ondemand') and (not(@subsegmentAlignment) or (@subsegmentAlignment and not(@subsegmentAlignment='true')))) then false() else true()">DASH-IF IOP Section 3.10.3: "AdaptationSet@subsegmentAlignment SHALL be present and set to true", not set appropriately.</assert>
-                        <!-- RD3.9 -->
-			<assert test="if (contains(ancestor::dash:MPD/@profiles, 'http://dashif.org/guidelines/dash-if-ondemand') and (not(subsegmentStartsWithSAP) or (subsegmentStartsWithSAP and (not(subsegmentStartsWithSAP='1') or not(subsegmentStartsWithSAP='2'))))) then false() else true()">DASH-IF IOP Section 3.10.3: "AdaptationSet@subsegmentStartsWithSAP SHALL be present and set to 1 or 2", not set appropriately.</assert>
+                        <assert test="if (@profiles and not(contains(ancestor::dash:MPD/@profiles, @profiles))) then false() else true()">The value of @profiles shall be a subset of the respective value in any higher level of the document hierarchy</assert>
                         <!-- HbbTV profile checks: extending the live profile checks -->
                         <assert test="if (contains(ancestor::dash:MPD/@profiles, 'http://dashif.org/guidelines/dash') and ((@profiles and contains(@profiles, 'urn:hbbtv:dash:profile:isoff-live:2012')) or (not(@profiles) and contains(ancestor::dash:MPD/@profiles, 'urn:hbbtv:dash:profile:isoff-live:2012'))) and (not(@segmentAlignment) or @segmentAlignment='false')) then false() else true()"> HbbTV-DVB DASH Validation Requirements check violated for HbbTV: Section 'MPD' - For HbbTV profile, @segmentAlignment shall be set to true for all Adaptation Sets as it is based on live profile</assert>
 		</rule>
@@ -384,7 +407,7 @@
 		<rule context="dash:Representation">
 			
 			<!-- R5.0 -->
-			<assert test="if (contains(ancestor::dash:MPD/@profiles, 'http://dashif.org/guidelines/dash') and @mimeType and following-sibling::dash:Representation/@mimeType and not(following-sibling::dash:Representation/@mimeType = @mimeType)) then false() else true()">DASH-IF IOP (v3.3), Section 3.2.13 : "In contrast to MPEG-DASH which does not prohibit the use of multiplexed Representations, in the DASH-IF IOPs one Adaptation Set always contains exactly a single media type.".</assert>
+			<assert test="if (@mimeType and following-sibling::dash:Representation/@mimeType and not(following-sibling::dash:Representation/@mimeType = @mimeType)) then false() else true()">DASH-IF IOP (v3.3), Section 3.2.13 : "In contrast to MPEG-DASH which does not prohibit the use of multiplexed Representations, in the DASH-IF IOPs one Adaptation Set always contains exactly a single media type.".</assert>
 			
 			<!-- RD5.0	DASH-IF -->
 			<assert test="if (contains(ancestor::dash:MPD/@profiles, 'http://dashif.org/guidelines/dash') and parent::dash:AdaptationSet/@contentType='video' and (((@width != preceding-sibling::dash:Representation/@width) and not(parent::dash:AdaptationSet/@maxWidth)) or ((@height != preceding-sibling::dash:Representation/@height) and not(parent::dash:AdaptationSet/@maxHeight)) or ((@frameRate != preceding-sibling::dash:Representation/@frameRate) and not(parent::dash:AdaptationSet/@maxFrameRate)))) then false() else true()"> DASH-IF IOP Section 3.2.4: "For any Adaptation Sets with value of the @contentType="video" the following attributes shall be present: @maxWidth (or @width if all Representations have the same width), @maxHeight (or @height if all Representations have the same width), @maxFrameRate (or @frameRate if all Representations have the same width)" violated here</assert >
@@ -398,11 +421,11 @@
                         <assert test="if (contains(ancestor::dash:MPD/@profiles, 'http://dashif.org/guidelines/dash') and ((count(tokenize(@codecs, ',')) > 1) or (count(tokenize(parent::dash:AdaptationSet/@codecs, ',')) > 1))) then false() else true()"> If profiles contain dash-if profile identifier, "codecs" attribute on AdaptationSet level OR Representation level shall not contain more than one identifiers as a comma separated list</assert >
                         
                         <!--Dual-Stream Dolby Vision check DASHIF 10.4.3-->
-                        <let name="codec" value="substring-before(ancestor-or-self::*/@codecs[1],'\.')"/>
-			<assert test="if(contains(ancestor::dash:MPD/@profiles, 'http://dashif.org/guidelines/dash') and $codec = ('dvhe','dvav') and @dependencyId and not(@dependencyId = preceding-sibling::dash:Representation/@id))then false() else true()">The @dependencyId attribute on the Enhancement Layer Representation shall refer to the Base Layer Representation @id attribute.</assert>
+                        <let name="codec" value="substring-before((ancestor-or-self::*/@codecs)[1],'\.')"/>
+			<assert test="if($codec = ('dvhe','dvav') and @dependencyId and not(@dependencyId = preceding-sibling::dash:Representation/@id))then false() else true()">The @dependencyId attribute on the Enhancement Layer Representation shall refer to the Base Layer Representation @id attribute.</assert>
 <!--			<assert test="if(not($codec = ('dvhe','dvav')) or (@dependencyId and not(@dependencyId = preceding-sibling::dash:Representation/@id)))then false() else true()">The @dependencyId attribute on the Enhancement Layer Representation shall refer to the Base Layer Representation @id attribute.</assert>-->
 			<!-- DASH-IF Section 5.3.7.2 -->
-                        <assert test="if (@profiles and ((parent::dash:AdaptationSet/@profiles and not(contains(parent::dash:AdaptationSet/@profiles, @profiles))) or (ancestor::dash:MPD/@profiles and not(contains(ancestor::dash:MPD/@profiles, @profiles))))) then false() else true()">The value of @profiles shall be a subset of the respective value in any higher level of the document hierarchy.</assert>
+                        <assert test="if (@profiles and ((parent::dash:AdaptationSet/@profiles and not(contains(parent::dash:AdaptationSet/@profiles, @profiles))) or (ancestor::dash:MPD/@profiles and not(contains(ancestor::dash:MPD/@profiles, @profiles))))) then false() else true()">The value of @profiles shall be a subset of the respective value in any higher level of the document hierarchy</assert>
                         
                         <!-- RD5.5	DASH-IF IOP 4.3 Section 3.2.1 -->
                         <assert test="if (((@profiles and contains(@profiles, 'http://dashif.org/guidelines/dash')) or (not(@profiles) and parent::dash:AdaptationSet/@profiles and contains(parent::dash:AdaptationSet/@profiles, 'http://dashif.org/guidelines/dash')) or (not(@profiles) and not(parent::dash:AdaptationSet/@profiles) and contains(ancestor::dash:MPD/@profiles, 'http://dashif.org/guidelines/dash'))) and ((@profiles and contains(@profiles, 'urn:mpeg:dash:profile:isoff-on-demand:2011')) or (not(@profiles) and parent::dash:AdaptationSet/@profiles and contains(parent::dash:AdaptationSet/@profiles, 'urn:mpeg:dash:profile:isoff-on-demand:2011')) or (not(@profiles) and not(parent::dash:AdaptationSet/@profiles) and contains(ancestor::dash:MPD/@profiles, 'urn:mpeg:dash:profile:isoff-on-demand:2011'))) and (not(dash:SegmentBase) and not(parent::dash:AdaptationSet/dash:SegmentBase) and not(ancestor::dash:Period/dash:SegmentBase))) then false() else true()">DASH-IF IOP 4.3 Section 3.2.1 - "For on-demand profiles, @indexRange attribute shall be present.</assert>
@@ -421,7 +444,7 @@
 		<title>SegmentBase element</title>          
             <!-- R9.*: Check the conformance of SegmentBase -->
             <rule context="dash:SegmentBase">
-                    <!-- R9.1	DASH-IF IOP 4.3 Section 3.2.1 -->
+                    <!-- R9.2	DASH-IF IOP 4.3 Section 3.2.1 -->
                     <assert test="if (((parent::dash:Representation and ((parent::dash:Representation/@profiles and contains(parent::dash:Representation/@profiles, 'http://dashif.org/guidelines/dash')) or (not(parent::dash:Representation/@profiles) and (ancestor::dash:AdaptationSet/@profiles) and contains(ancestor::dash:AdaptationSet/@profiles, 'http://dashif.org/guidelines/dash')) or (not(parent::dash:Representation/@profiles) and not(ancestor::dash:AdaptationSet/@profiles) and contains(ancestor::dash:MPD/@profiles, 'http://dashif.org/guidelines/dash')))) or (parent::dash:AdaptationSet and ((parent::dash:AdaptationSet/@profiles and contains(parent::dash:AdaptationSet/@profiles, 'http://dashif.org/guidelines/dash')) or (not(parent::dash:AdaptationSet/@profiles) and contains(ancestor::dash:MPD/@profiles, 'http://dashif.org/guidelines/dash')))) or (parent::dash:Period and contains(ancestor::dash:MPD/@profiles, 'http://dashif.org/guidelines/dash'))) and ((parent::dash:Representation and ((parent::dash:Representation/@profiles and contains(parent::dash:Representation/@profiles, 'urn:mpeg:dash:profile:isoff-on-demand:2011')) or (not(parent::dash:Representation/@profiles) and (ancestor::dash:AdaptationSet/@profiles) and contains(ancestor::dash:AdaptationSet/@profiles, 'urn:mpeg:dash:profile:isoff-on-demand:2011')) or (not(parent::dash:Representation/@profiles) and not(ancestor::dash:AdaptationSet/@profiles) and contains(ancestor::dash:MPD/@profiles, 'urn:mpeg:dash:profile:isoff-on-demand:2011')))) or (parent::dash:AdaptationSet and ((parent::dash:AdaptationSet/@profiles and contains(parent::dash:AdaptationSet/@profiles, 'urn:mpeg:dash:profile:isoff-on-demand:2011')) or (not(parent::dash:AdaptationSet/@profiles) and contains(ancestor::dash:MPD/@profiles, 'urn:mpeg:dash:profile:isoff-on-demand:2011')))) or (parent::dash:Period and contains(ancestor::dash:MPD/@profiles, 'urn:mpeg:dash:profile:isoff-on-demand:2011'))) and not(@indexRange)) then false() else true()">DASH-IF IOP 4.3 Section 3.2.1 - "For on-demand profiles, @indexRange attribute shall be present.</assert>
             </rule>
         </pattern>
@@ -430,13 +453,13 @@
 		<!-- R12.*: Check the conformance of ContentProtection -->
 		<rule context="dash:ContentProtection">
 			<!--  R12.2  DASH-IF IOP v4.0-->
-			<assert test="if (contains(ancestor::dash:MPD/@profiles, 'http://dashif.org/guidelines/dash') and not(parent::dash:AdaptationSet)) then false() else true()">The ContentProtection descriptors shall always be present in the AdaptationSet element and apply to all contained Representations.
+			<assert test="if (not(parent::dash:AdaptationSet)) then false() else true()">The ContentProtection descriptors shall always be present in the AdaptationSet element and apply to all contained Representations.
 			</assert>
 			<!--  R12.3  DASH-IF IOP v4.0-->
-			<assert test="if (contains(ancestor::dash:MPD/@profiles, 'http://dashif.org/guidelines/dash') and (@schemeIdUri = 'urn:mpeg:dash:mp4protection:2011') and (@value= 'cenc') and not(parent::dash:AdaptationSet)) then false() else true()">The ContentProtection descriptor for the mp4 protection scheme with @schemeIdUri 'urn:mpeg:dash:mp4protection:2011' and @value 'cenc' shall be present in the AdaptationSet element.
+			<assert test="if ((@schemeIdUri = 'urn:mpeg:dash:mp4protection:2011') and (@value= 'cenc') and not(parent::dash:AdaptationSet)) then false() else true()">The ContentProtection descriptor for the mp4 protection scheme with @schemeIdUri 'urn:mpeg:dash:mp4protection:2011' and @value 'cenc' shall be present in the AdaptationSet element.
 			</assert>
                         <!--  R12.3  DASH-IF IOP v4.2-->
-                        <assert test="if (contains(ancestor::dash:MPD/@profiles, 'http://dashif.org/guidelines/dash') and (@schemeIdUri = 'urn:mpeg:dash:mp4protection:2011') and not(@cenc:default_KID) ) then false() else true()">The ContentProtection Descriptor for the mp4protection scheme shall contain the attribute @cenc:default_KID.
+                        <assert test="if ( contains(ancestor::dash:MPD/@profiles, 'http://dashif.org/guidelines/dash') and (@schemeIdUri = 'urn:mpeg:dash:mp4protection:2011') and not(@cenc:default_KID) ) then false() else true()">The ContentProtection Descriptor for the mp4protection scheme shall contain the attribute @cenc:default_KID.
                         </assert>
 		</rule>
 	</pattern>

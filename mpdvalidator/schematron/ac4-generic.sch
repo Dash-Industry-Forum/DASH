@@ -13,7 +13,7 @@
 	<pattern>
 		<title>AdaptationSet and Preselection element for AC-4</title>
 		<!-- Check the conformance of AdaptationSet -->
-		<rule context="*[self::dash:AdaptationSet or self::dash:Preselection][dlb:isAdaptationSetAC4(.)]">
+		<rule context="*[self::dash:AdaptationSet or self::dash:Representation or self::dash:Preselection][dlb:isAdaptationSetAC4(.)]">
 			<let name="codecs" value="dlb:getNearestCodecString(.)"/>
 			<let name="mstring" value="concat('^\s*(',$AC4_MIME,$delim,')+$')"/>
 
@@ -27,14 +27,16 @@
 			<let name="md_compat" value="$cod[4]"/>
 
 			<!-- TS 103190-1, F.1.2.1 -->
-			<report test="$bs_ver = '00' and @mimeType != ('audio/mp4','video/mp4')">The value of the mimeType attribute shall be set to 'audio/mp4' or 'video/mp4'.</report>
+			<report test="$bs_ver = '00' and not(@mimeType = ('audio/mp4','video/mp4'))">The value of the mimeType attribute shall be set to 'audio/mp4' or 'video/mp4'.</report>
 			<!-- TS 103190-2, G.2.6 -->
-			<report test="matches($codecs, 'ac-4\.(01|02)','i') and not(@audioSamplingRate)">@audioSamplingRate shall be set to the sampling frequency derived from the parameters fs_index and
+			<report test="matches($codecs, 'ac-4\.(01|02)','i') and not(ancestor-or-self::*/@audioSamplingRate)">@audioSamplingRate shall be set to the sampling frequency derived from the parameters fs_index and
 				dsi_sf_multiplier, contained in ac4_dsi_v1.</report>
 			<!-- TS 103190-2, G.2.7 -->
 			<report test="$bs_ver = ('01','02') and @mimeType != 'audio/mp4'">The value of the mimeType attribute shall be set to 'audio/mp4'.</report>
 			<!-- TS 103190-2, G.2.8 -->
 			<report test="$bs_ver = ('01','02') and @startWithSAP != '1'">The @startWithSAP value shall be set to '1'.</report>
+			<!-- TS 103190-1, 4.3.3.4.1 -->
+			<report test="$bs_ver = '00' and $pres_ver != '00'">An encoder conforming to TS 103190-1 shall write a presentation version value of 0.</report>
 		</rule>
 	</pattern>
 
@@ -51,7 +53,7 @@
 		<rule context="dash:Role[matches(dlb:getNearestCodecString(.), 'ac-4\.00')]">
 			<!-- TS 103 190-1 F.1.3.1 -->
 			<report test="@schemeIdUri = 'urn:mpeg:dash:role:2011' and
-				not(@value = ('main','alternate','commentary','dub'))">The value of Role (role) shall be main, alternate, commentary.</report>
+				not(@value = ('main','alternate','commentary','dub'))">The value of Role (role) shall be main, alternate, commentary or dub</report>
 		</rule>
 	</pattern>
 
@@ -91,7 +93,7 @@
 		<!-- TS 103 190-2, G.2.5 -->
 		<rule context="dash:AudioChannelConfiguration[matches(dlb:getNearestCodecString(.),'ac-4\.(01|02)')][not(@schemeIdUri = ($NSDLB_acc2015,$NSMPEG_acc))]">
 			<report test="true()" role="warn">
-				Unspecified schemeIdUri in AudioChannelConfiguration element
+				Unspecified schemeIdUri in AudioChannelConfiguration element. Expected one of <value-of select="$NSDLB_acc2015"/> or <value-of select="$NSMPEG_acc"/>
 			</report>
 		</rule>
 
