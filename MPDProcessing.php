@@ -269,10 +269,10 @@ function processAdaptationSetOfCurrentPeriod($period,$curr_period_dir,$ResultXML
             ## Report to client
             $send_string = json_encode($return_seg_val);
             #error_log('RepresentationDownloaded_Return:' . $send_string);
-
             err_file_op(1);
-            print_console(dirname(__DIR__) . '/' . explode('.', $return_seg_val[1])[0] . '.txt', "Period " . ($current_period+1) . " Adaptation Set " . ($current_adaptation_set+1) . " Representation " . ($current_representation+1) . " Results");
             $segment_log = 'Period' . $current_period . '/' . str_replace(array('$AS$', '$R$'), array($current_adaptation_set, $current_representation), $reprsentation_error_log_template);
+            $filename = $session_dir . '/' . $segment_log . '.txt';
+            print_console($filename, "Period " . ($current_period+1) . " Adaptation Set " . ($current_adaptation_set+1) . " Representation " . ($current_representation+1) . " Results");
             tabulateResults($session_dir . '/' . $segment_log . '.txt', 'Segment');
             
             $current_representation++;
