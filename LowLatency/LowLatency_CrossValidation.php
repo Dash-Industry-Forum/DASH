@@ -490,10 +490,10 @@ function validate9X45($adaptation_set, $adaptation_set_id, $is_ll_adapt, $segmen
                         $messages .= "DASH-IF IOP CR Low Latency Live check violated Section 9.X.4.5: \"The SegmentBase@availabilityTimeOffset SHALL be greater than zero\", availabilityTimeOffset of $availability_time_offset is found for Period " . ($current_period+1) . ' Adaptation Set ' . ($adaptation_set_id+1) . ' Representation ' . ($representation_id+1) . ".\n";
                     }
                     if($availability_time_offset >= $maxSegmentDurations[$representation_id]) {
-                        $messages .= "DASH-IF IOP CR Low Latency Live check violated Section 9.X.4.5: \"The SegmentBase@availabilityTimeOffset SHALL be smaller than the maximum segment duration for this Representation\", availabilityTimeOffset of $availability_time_offset is not smaller than maximum segment duration of $max_segment_duration for Period " . ($current_period+1) . ' Adaptation Set ' . ($adaptation_set_id+1) . ' Representation ' . ($representation_id+1) . ".\n";
+                        $messages .= "DASH-IF IOP CR Low Latency Live check violated Section 9.X.4.5: \"The SegmentBase@availabilityTimeOffset SHALL be smaller than the maximum segment duration for this Representation\", availabilityTimeOffset of $availability_time_offset is not smaller than maximum segment duration of $maxSegmentDurations[$representation_id] for Period " . ($current_period+1) . ' Adaptation Set ' . ($adaptation_set_id+1) . ' Representation ' . ($representation_id+1) . ".\n";
                     }
                     if(abs($availability_time_offset-$maxSegmentDurations[$representation_id]) >= $target) {
-                        $messages .= "DASH-IF IOP CR Low Latency Live check violated Section 9.X.4.5: \"The SegmentBase@availabilityTimeOffset SHALL be such that the difference of the availabilityTimeOffset and the maximum segment duration for this Representation is smaller that the target latency\", the difference of availabilityTimeOffset of $availability_time_offset and maximum segment duration of $max_segment_duration is not smaller than the target latency of $target for Period " . ($current_period+1) . ' Adaptation Set ' . ($adaptation_set_id+1) . ' Representation ' . ($representation_id+1) . ".\n";
+                        $messages .= "DASH-IF IOP CR Low Latency Live check violated Section 9.X.4.5: \"The SegmentBase@availabilityTimeOffset SHALL be such that the difference of the availabilityTimeOffset and the maximum segment duration for this Representation is smaller that the target latency\", the difference of availabilityTimeOffset of $availability_time_offset and maximum segment duration of $maxSegmentDurations[$representation_id] is not smaller than the target latency of $target for Period " . ($current_period+1) . ' Adaptation Set ' . ($adaptation_set_id+1) . ' Representation ' . ($representation_id+1) . ".\n";
                     }
                 }
                 
@@ -968,7 +968,7 @@ function validateSegmentTimeline($adaptation_set, $adaptation_set_id, $represent
         if($s_i != 0) {
             $s_prev = $s_elements[$s_i-1];
             if($s_prev['d'] == $d) {
-                $messages .= "DASH-IF IOP CR Low Latency Live check warning Section 9.X.4.5: \"(As part of MPEG-DASH 8.X.3 referenced in 8.X.4) If the SegmentTimeline element is present and if consecutive CMAF Fragments have the same duration then their corresponding S element SHOULD be combined to a single S element\", S elements at indexes " . $s_i . " and "  ($s_i+1) . " signal the same duration of $d but are not combined into a single S element for Period " . ($current_period+1) . ' Adaptation Set ' . ($adaptation_set_id+1) . ' Representation ' . ($representation_id+1) . ".\n";
+                $messages .= "DASH-IF IOP CR Low Latency Live check warning Section 9.X.4.5: \"(As part of MPEG-DASH 8.X.3 referenced in 8.X.4) If the SegmentTimeline element is present and if consecutive CMAF Fragments have the same duration then their corresponding S element SHOULD be combined to a single S element\", S elements at indexes " . $s_i . " and " . ($s_i+1) . " signal the same duration of $d but are not combined into a single S element for Period " . ($current_period+1) . ' Adaptation Set ' . ($adaptation_set_id+1) . ' Representation ' . ($representation_id+1) . ".\n";
             }
         }
     }
@@ -1150,11 +1150,11 @@ function validate9X45Extended($adaptation_set, $adaptation_set_id) {
             continue;
         }
         if($maxSegmentDuration >= $target) {
-            $first_option_messages .= "DASH-IF IOP CR Low Latency Live check violated Section 9.X.4.5: \"For Adaptation Set that contains more than one Representation, the maximum segment duration SHALL be smaller than the signaled target latency\", maximum segment duration of $max_segment_duration is not smaller than the signaled target latency (signaled target latency: $target) for Period " . ($current_period+1) . ' Adaptation Set ' . ($adaptation_set_id+1) . ' Representation ' . ($representation_id+1) . ".\n";
+            $first_option_messages .= "DASH-IF IOP CR Low Latency Live check violated Section 9.X.4.5: \"For Adaptation Set that contains more than one Representation, the maximum segment duration SHALL be smaller than the signaled target latency\", maximum segment duration of $maxSegmentDuration is not smaller than the signaled target latency (signaled target latency: $target) for Period " . ($current_period+1) . ' Adaptation Set ' . ($adaptation_set_id+1) . ' Representation ' . ($representation_id+1) . ".\n";
             $first_option_points[$representation_id]--;
         }
-        if($max_segment_duration >= $target*0.5) {
-            $first_option_messages .= "DASH-IF IOP CR Low Latency Live check warning Section 9.X.4.5: \"For Adaptation Set that contains more than one Representation, the maximum segment duration SHOULD be smaller than half of the signaled target latency\", maximum segment duration of $max_segment_duration is not smaller than half of the signaled target latency (signaled target latency: $target) for Period " . ($current_period+1) . ' Adaptation Set ' . ($adaptation_set_id+1) . ' Representation ' . ($representation_id+1) . ".\n";
+        if($maxSegmentDuration >= $target*0.5) {
+            $first_option_messages .= "DASH-IF IOP CR Low Latency Live check warning Section 9.X.4.5: \"For Adaptation Set that contains more than one Representation, the maximum segment duration SHOULD be smaller than half of the signaled target latency\", maximum segment duration of $maxSegmentDuration is not smaller than half of the signaled target latency (signaled target latency: $target) for Period " . ($current_period+1) . ' Adaptation Set ' . ($adaptation_set_id+1) . ' Representation ' . ($representation_id+1) . ".\n";
         }
     }
     if(sizeof(array_unique($first_option_points)) == 1 && $first_option_points[0] == 1) {
@@ -1276,10 +1276,12 @@ function validate9X45Extended($adaptation_set, $adaptation_set_id) {
             $presentation_time_j = $presentation_times[$current_period][$adaptation_set_id][$j];
             $decode_time_j = $decode_times[$current_period][$adaptation_set_id][$j];
 
-            if(!empty(array_diff($presentation_time_i, $presentation_time_j))) {
+            $presentation_time_diff = array_diff($presentation_time_i, $presentation_time_j);
+            if(!empty($presentation_time_diff)) {
                 $all_rep_cross_messages .= 'DASH-IF IOP CR Low Latency Live check warning Section 9.X.4.5: "CMAF chunks SHALL be aligned in presentation time across all Representations", presentation time not aligned for Period ' . ($current_period+1) . ' Adaptation Set ' . ($adaptation_set_id+1) . ' Representation ' . ($i+1) . ' and Representation ' . ($j+1) . ".\n";
             }
-            if(!empty(array_diff($decode_time_i, $decode_time_j))) {
+            $decode_time_diff = array_diff($decode_time_i, $decode_time_j);
+            if(!empty($decode_time_diff)) {
                 $all_rep_cross_messages .= 'DASH-IF IOP CR Low Latency Live check warning Section 9.X.4.5: "CMAF chunks SHALL be aligned in decode time across all Representations", decode time not aligned for Period ' . ($current_period+1) . ' Adaptation Set ' . ($adaptation_set_id+1) . ' Representation ' . ($i+1) . ' and Representation ' . ($j+1) . ".\n";
             }
         }
